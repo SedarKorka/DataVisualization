@@ -1,0 +1,182 @@
+---
+title: "mortality_indicators_luxembourg"
+author: "Diallo Mamadou Korka"
+date: "2022-11-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#library
+
+```{r}
+library(readr)
+library(tidyselect)
+library(tidyverse)
+library(broom)
+library(vroom)
+library(gganimate)
+
+```
+
+#Link to Download the dataset https://platform.who.int/mortality/countries/country-details/MDB/luxembourg
+#Link to Download the dataset world https://platform.who.int/mortality/themes/theme-details/MDB/noncommunicable-diseases
+#https://ourworldindata.org/age-structure
+#Read the dataset and Tidy
+
+```{r}
+
+#Mortality in Luxembourg
+Mortality<-read_csv("data/Mortality_Database_Luxembourg.csv",
+                    skip = 9,
+    
+        
+      col_names  = c( "Indicator_Code",
+                     "Indicator_Name",
+                     "Year",
+                     "Sex",
+                     "Age_group_code",
+                     "Age_Group",
+                     "Number",
+                     "Percentage_of_cause_specific_deaths_out_of_total_deaths",
+                     "Age_standardized_death_rate_per_100000_standard_population",
+                     "Death_rate_per_100000_population",
+                     "Dumm"),
+         show_col_types = TRUE)
+
+Mortality
+
+#Mortality causes by noncauminicate desease
+Noncauminicate<-read_csv("data/WHOMortalityDatabase_Map_Noncommunicable diseases_14th_December_2022_17_17.csv",
+                         skip = 7,
+                         col_names  = c( "Region_Code",
+                     "Region_Name",
+                     "Country_Code",
+                     "region",
+                     "Year",
+                     "Sex",
+                     "Age_group_code",
+                     "Age_Group",
+                     "Number",
+                     "Percentage_of_cause_specific_deaths_out_of_total_deaths",
+                     "Age_standardized_death_rate_per_100_000_standard_population",
+                     "Death_rate_per_100_000_population",
+                     ""),
+         show_col_types = TRUE)
+Noncauminicate
+
+#Population by group age Europe
+Population<-read_csv("data/age_dependency_ratio_of_working_age_population.csv",
+                         skip = 7,
+                         col_names  = c( "region",
+                     "Code",
+                     "Year",
+                     "Total dependency ratio - Sex: all - Age: none - Variant: estimates",
+                     ""),
+         show_col_types = TRUE)
+Population
+
+```
+
+#We want to see how the mortality rate varies over the course of 1960 to 2021. 
+```{r}
+
+
+Mortality %>% filter(Age_group_code == "Age_all", Indicator_Name=="All Causes" ) %>% 
+
+ggplot(aes(x=Year, y=Number, group=Sex))+
+  geom_line(aes(color=Sex))+
+  geom_point(aes(color=Sex))+
+  xlab("Year") + ylab("Number") +
+  ggtitle("Mortality rate over years in Luxembourg")
+
+
+```
+
+#We shall now analyze a few major causes of mortality in luxembourg and how these causes have affected different parts of the sex\
+
+```{r}
+Mortality |> count(Indicator_Name, sort = TRUE)
+
+ggplot(data = Mortality |> filter(Number>1000)) + 
+  geom_col(aes(y = Number, x = Year)) +
+  facet_wrap(~Indicator_Name)
+
+```
+
+#Number of deaf by noncommunicatif desease by cat age
+```{r}
+#summurase
+#(?<=\\[).*(?=\\])
+
+#Mortality
+
+Mortality %>% filter(Indicator_Name =="Noncommunicable diseases") %>%
+  mutate(Age_by_group_New = str_extract(Age_Group,"(\\d)+") %>% as.numeric(),
+         Age_by_group_New = if_else(Age_group_code == "Age_all", 74, Age_by_group_New),
+         Age_Group = fct_reorder(Age_Group, Age_group_code)) %>%
+  
+  ggplot(aes(x = Age_Group, y=Number, color=Sex))+
+  geom_point(size=2, alpha=0.5)+
+  #geom_line(size=1)+
+  theme_minimal()+
+  labs(title="Yearly Culmulative mortality by NonComunication deseses in Luxembourg")
+  #transition_reveal(Year)
+ 
+
+
+```
+
+#Find the Year , where we have most mortality from Age 54 to 74 in luxembourg
+```{r}
+Mortality %>%filter(Age_group_code %in% c("Age55_59","Age60_64","Age65_69","Age70_74"), Indicator_Name=="Noncommunicable diseases") %>% 
+
+  ggplot(aes(x = Year, y=Number, fill=Age_group_code))+
+    geom_col()
+    #geom_point()
+  
+
+
+```
+
+#Comparing the mortality cause by noncomminicate desase in Luxembourg to other country from 54 to 74
+
+```{r}
+
+
+mapdata <- map_data("world")
+
+
+#mapdata
+#Noncauminicate %>% filter(Age_group_code == "Age75_79") %>% 
+#  select (region, Number) %>% 
+  
+#mapdata<- left_join(mapdata,Noncauminicate, by="region")
+
+
+```
+
+#Life experience in 2000 comparing the rest of the word in 2000(Map) with noncommunication desases
+
+```{r}
+
+
+```
+
+#study cas of the mortality by noncommunicate deseas(Regression linear)
+
+```{r}
+ggplot(data = Mortality |> filter(Indicator_Name =="Noncommunicable diseases")) + 
+  geom_point(aes(y =Number , x = Age_Group, fill=Sex)) #+
+  #geom_bar()
+  
+  #facet_wrap(~Sex)
+
+```
+
+#Prediction for 2023
+
+```{r}
+
+```
