@@ -17,6 +17,7 @@ library(tidyverse)
 library(broom)
 library(vroom)
 library(gganimate)
+library(maps)
 
 ```
 
@@ -48,7 +49,7 @@ Mortality<-read_csv("data/Mortality_Database_Luxembourg.csv",
 Mortality
 
 #Mortality causes by noncauminicate desease
-Noncauminicate<-read_csv("data/WHOMortalityDatabase_Map_Noncommunicable diseases_14th_December_2022_17_17.csv",
+Noncauminicate<-read_csv("data/WHOMortalityDatabase_Map_Noncommunicable_diseases_14th_December_2022_17_17.csv",
                          skip = 7,
                          col_names  = c( "Region_Code",
                      "Region_Name",
@@ -147,12 +148,19 @@ Mortality %>%filter(Age_group_code %in% c("Age55_59","Age60_64","Age65_69","Age7
 
 mapdata <- map_data("world")
 
+#mapdata
 
 #mapdata
-#Noncauminicate %>% filter(Age_group_code == "Age75_79") %>% 
-#  select (region, Number) %>% 
+#newDataForNonCauminicate<-Noncauminicate %>% filter(Age_group_code == "Age_all")
   
-#mapdata<- left_join(mapdata,Noncauminicate, by="region")
+                        #select (region, Number,Age_group_code)# %>%
+                        #  filter(Age_group_code %in% c("Age_all")) #%>% 
+newDataForNonCauminicate<-Noncauminicate[Noncauminicate$Age_group_code == "Age_all", ]
+       
+newDataForNonCauminicate 
+#newMapdata<- left_join(mapdata,newDataForNonCauminicate, by="region")
+
+#newMapdata
 
 
 ```
@@ -160,7 +168,7 @@ mapdata <- map_data("world")
 #Life experience in 2000 comparing the rest of the word in 2000(Map) with noncommunication desases
 
 ```{r}
-
+Population
 
 ```
 
