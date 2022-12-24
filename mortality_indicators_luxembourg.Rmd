@@ -24,7 +24,7 @@ library(maps)
 #Link to Download the dataset https://platform.who.int/mortality/countries/country-details/MDB/luxembourg
 #Link to Download the dataset world https://platform.who.int/mortality/themes/theme-details/MDB/noncommunicable-diseases
 #https://ourworldindata.org/age-structure
-#Read the dataset and Tidy
+#Read the dataset and Tidy.
 
 ```{r}
 
