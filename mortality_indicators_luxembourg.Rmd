@@ -21,6 +21,7 @@ library(vroom)
 library(gganimate)
 library(maps)
 library(cowplot)
+library(tinytex)
 
 ```
 
@@ -51,7 +52,26 @@ Mortality<-read_csv("data/Mortality_Database_Luxembourg.csv",
 
 Mortality
 
-#Mortality causes by noncauminicate desease
+#Mortality causes by noncauminicate desease in the in luxembourg from 1967
+Noncauminicate_in_luxembourg<-read_csv("data/Luxembourg/Luxembourg.csv",
+                         skip = 7,
+                         col_names  = c( "Region_Code",
+                     "Region_Name",
+                     "Country_Code",
+                     "region",
+                     "Year",
+                     "Sex",
+                     "Age_group_code",
+                     "Age_Group",
+                     "Number",
+                     "Percentage_of_cause_specific_deaths_out_of_total_deaths",
+                     "Age_standardized_death_rate_per_100_000_standard_population",
+                     "Death_rate_per_100_000_population",
+                     ""),
+         show_col_types = TRUE)
+Noncauminicate_in_luxembourg
+
+#Mortality causes by noncauminicate desease in the world
 Noncauminicate<-read_csv("data/WHOMortalityDatabase_Map_Noncommunicable_diseases_14th_December_2022_17_17.csv",
                          skip = 7,
                          col_names  = c( "Region_Code",
@@ -125,8 +145,8 @@ Mortality %>% filter(Indicator_Name =="Noncommunicable diseases") %>%
   geom_point(size=2, alpha=0.5)+
   #geom_line(size=1)+
   theme_minimal()+
-  labs(title="Yearly Culmulative mortality by NonComunication deseses in Luxembourg")#+
-  #theme(axis.text.x = element_text(angle = 90))+
+  labs(title="Yearly Culmulative mortality by NonComunication deseses in Luxembourg")+
+  theme(axis.text.x = element_text(angle = 90))#+
   #transition_reveal(Year)
  
 
@@ -135,12 +155,43 @@ Mortality %>% filter(Indicator_Name =="Noncommunicable diseases") %>%
 
 #Find the Year , where we have most mortality from Age 54 to 74 in luxembourg
 ```{r}
-Mortality %>%filter(Age_group_code %in% c("Age55_59","Age60_64","Age65_69","Age70_74"), Indicator_Name=="Noncommunicable diseases") %>% 
 
-  ggplot(aes(x = Year, y=Number, fill=Age_group_code))+
-    geom_col()
-    #geom_point()
+world_map <- map_data("world")
+
+Luxembourg_map<-world_map %>% filter(region == "Luxembourg")
+
+Noncauminicate_in_luxembourg<-Noncauminicate_in_luxembourg %>% select("region",
+                     
+                     "Year",
+                     "Death_rate_per_100_000_population")
+
+Luxembourg_map_join<-left_join(Luxembourg_map,Noncauminicate_in_luxembourg, by="region")
+
+#Luxembourg_map_join
+
+for (y in unique(Noncauminicate_in_luxembourg$Year)) {
   
+   print(Noncauminicate_in_luxembourg %>%
+    filter(Year == y) %>% 
+    select(Year,region,Death_rate_per_100_000_population) %>% 
+      
+    
+    ggplot() +
+    geom_map(
+      dat = Luxembourg_map, map = Luxembourg_map, aes(map_id = region),
+      fill = "white", color = "#7f7f7f"
+    ) +
+    geom_map(map = Luxembourg_map, aes(map_id = region, fill = Death_rate_per_100_000_population)) +
+    scale_fill_gradient(low = "white", high = "#cc4c02", name = "Fraction", limits = c(0, max(Noncauminicate_in_luxembourg$Death_rate_per_100_000_population))) +
+    expand_limits(x = Luxembourg_map$long, y = Luxembourg_map$lat) + 
+    labs(title = paste("Fraction of 50+ Population in ", y)))+
+    transition_manual(frames = Year)
+    
+  
+  
+  
+}
+
 
 
 ```
@@ -155,13 +206,15 @@ mapdata <- map_data("world")
 newDataForNonCauminicate<-Noncauminicate %>% select(region, Number) 
        
 #newDataForNonCauminicate 
-mapdata_join<-left_join(mapdata,newDataForNonCauminicate, by="region")
+mapdata_join<-inner_join(mapdata,newDataForNonCauminicate, by="region")
 
 
 newMapdata<-mapdata_join %>% filter(!is.na(mapdata_join$Number))
 
 map1<- ggplot(newMapdata, aes(x = long, y = lat,fill=Number, group=group))+
-  geom_polygon(color="black")
+  geom_polygon(color="black")+ 
+  theme(panel.background = element_rect(fill = "#101045")) +
+  coord_equal()
 
 #map1
 
@@ -173,6 +226,7 @@ map2<-map1 + scale_fill_gradient(name="%Number of dies", low = "Yellow", high="r
         axis.title.y = element_blank(),
         rect = element_blank()
         )
+
 #map2
 
 ggdraw() +
@@ -184,22 +238,8 @@ ggdraw() +
 #Life experience in 2000 comparing the rest of the word in 2000(Map) with noncommunication desases
 
 ```{r}
-#Population
-world_map <- map_data("world")
+Population
 
-agePolution<-Population %>% select(region, Year, estimates_age ) 
-       
-#newDataForNonCauminicate 
-agePolution_join<-left_join(world_map,agePolution, by="region")
-
-newagePolutiondata<-agePolution_join %>% filter(!is.na(agePolution_join$estimates_age))
-
-#newagePolutiondata
-# Iterate over the time axis to print multiple plots, these will be combined by the animation.hook
-
-for (y in unique(newagePolutiondata$Year)) {
-  print(newagePolutiondata %>% filter(Year == y)) 
-}
 
 
 ```

@@ -1,0 +1,60 @@
+Indicator Code: CG0590,,,,,,,,,,,
+Indicator Name: Noncommunicable diseases,,,,,,,,,,,
+Export date: 12/25/2022 9:17:33 PM,,,,,,,,,,,
+"Source location: ""WHO Mortality Database portal""",,,,,,,,,,,
+"Indicator metadata: C00-C97, D00-D48, D55-D64 (minus D 64.9) D65-D89, E03-E07, E10-E34, E65-E88, F01-F99, G06-G98 (minus G14), H00-H61, H68-H93, I00-I99, J30-J98, K00-K92, L00-L98, M00-M99, N00-N64, N75-N98,  Q00-Q99,  R95, U07.0, X41, X42, X44, X45",,,,,,,,,,,
+,,,,,,,,,,,
+Region_Code,Region_Name,Country_Code,region,Year,Sex,Age_group_code,Age_Group,Number,Percentage_of_cause_specific_deaths_out_of_total deaths,Age_standardized_death_rate_per_100_000_standard_population,Death_rate_per_100_000_population
+EU,Europe,LUX,Luxembourg,1967,All,Age_all,[All],3407,82.01733269,777.5979655,1016.408115
+EU,Europe,LUX,Luxembourg,1968,All,Age_all,[All],3475,84.50875486,770.6578257,1032.68945
+EU,Europe,LUX,Luxembourg,1969,All,Age_all,[All],3561,85.2321685,782.9539974,1051.994092
+EU,Europe,LUX,Luxembourg,1970,All,Age_all,[All],3507,84.3840231,771.8016027,1032.077693
+EU,Europe,LUX,Luxembourg,1971,All,Age_all,[All],3730,84.73421172,804.1523577,1080.846132
+EU,Europe,LUX,Luxembourg,1972,All,Age_all,[All],3512,85.20135856,742.4774879,1008.615738
+EU,Europe,LUX,Luxembourg,1973,All,Age_all,[All],3542,84.77740546,740.9590926,1004.252906
+EU,Europe,LUX,Luxembourg,1974,All,Age_all,[All],3607,84.11847015,733.904673,1009.233352
+EU,Europe,LUX,Luxembourg,1975,All,Age_all,[All],3737,85.41714286,746.3923543,1036.615811
+EU,Europe,LUX,Luxembourg,1976,All,Age_all,[All],3775,84.01958602,746.2446296,1045.706371
+EU,Europe,LUX,Luxembourg,1977,All,Age_all,[All],3512,86.43859217,677.2686243,970.7020453
+EU,Europe,LUX,Luxembourg,1978,All,Age_all,[All],3548,84.81950753,709.0246622,994.3946188
+EU,Europe,LUX,Luxembourg,1979,All,Age_all,[All],3503,87.68460576,692.7191059,966.8782777
+EU,Europe,LUX,Luxembourg,1980,All,Age_all,[All],3575,86.47798742,691.7700387,982.9529832
+EU,Europe,LUX,Luxembourg,1981,All,Age_all,[All],3619,86.99519231,685.8543246,992.5946243
+EU,Europe,LUX,Luxembourg,1982,All,Age_all,[All],3588,86.56212304,666.832857,981.1320755
+EU,Europe,LUX,Luxembourg,1983,All,Age_all,[All],3648,87.62911362,666.235874,998.0848153
+EU,Europe,LUX,Luxembourg,1984,All,Age_all,[All],3622,88.38457784,658.6100557,990.1585566
+EU,Europe,LUX,Luxembourg,1985,All,Age_all,[All],3568,87.45098039,639.2881679,974.5971046
+EU,Europe,LUX,Luxembourg,1986,All,Age_all,[All],3486,86.84603886,610.0341785,949.3464052
+EU,Europe,LUX,Luxembourg,1987,All,Age_all,[All],3578,88.0196802,620.7833554,965.4614139
+EU,Europe,LUX,Luxembourg,1988,All,Age_all,[All],3408,87.22805221,575.0949254,911.4736561
+EU,Europe,LUX,Luxembourg,1989,All,Age_all,[All],3494,86.95868591,575.2334652,925.5629139
+EU,Europe,LUX,Luxembourg,1990,All,Age_all,[All],3349,87.37281503,543.876336,877.1608172
+EU,Europe,LUX,Luxembourg,1991,All,Age_all,[All],3292,85.95300261,521.8439265,850.4262465
+EU,Europe,LUX,Luxembourg,1992,All,Age_all,[All],3374,86.95876289,523.7618447,859.6178344
+EU,Europe,LUX,Luxembourg,1993,All,Age_all,[All],3377,86.23595506,516.5768744,848.2793268
+EU,Europe,LUX,Luxembourg,1994,All,Age_all,[All],3205,85.99409713,475.4159684,793.7097573
+EU,Europe,LUX,Luxembourg,1995,All,Age_all,[All],3232,87.35135135,473.0346032,788.8699048
+EU,Europe,LUX,Luxembourg,1996,All,Age_all,[All],3324,86.58504819,475.9735251,799.8075072
+EU,Europe,LUX,Luxembourg,1997,All,Age_all,[All],3275,86.96229421,459.3540303,777.9097387
+EU,Europe,LUX,Luxembourg,1998,All,Age_all,[All],3268,87.30964467,453.360062,766.2996963
+EU,Europe,LUX,Luxembourg,1999,All,Age_all,[All],3120,86.37873754,420.7357539,721.4490026
+EU,Europe,LUX,Luxembourg,2000,All,Age_all,[All],3147,86.86171681,415.0672368,717.1668832
+EU,Europe,LUX,Luxembourg,2001,All,Age_all,[All],3081,85.89350432,415.6914236,697.3743776
+EU,Europe,LUX,Luxembourg,2002,All,Age_all,[All],2998,83.20843741,400.4862807,671.9201047
+EU,Europe,LUX,Luxembourg,2003,All,Age_all,[All],3245,82.56997455,422.6813826,718.4926047
+EU,Europe,LUX,Luxembourg,2004,All,Age_all,[All],2922,85.33878505,376.4632234,637.8408585
+EU,Europe,LUX,Luxembourg,2005,All,Age_all,[All],2969,85.29158288,371.4081605,638.264025
+EU,Europe,LUX,Luxembourg,2006,All,Age_all,[All],3085,85.15042782,376.9693644,652.7028457
+EU,Europe,LUX,Luxembourg,2007,All,Age_all,[All],3125,84.66540233,368.3943781,651.0335288
+EU,Europe,LUX,Luxembourg,2008,All,Age_all,[All],2953,85.99301107,335.8953747,604.3044155
+EU,Europe,LUX,Luxembourg,2009,All,Age_all,[All],2997,84.90084986,331.6797577,602.0574817
+EU,Europe,LUX,Luxembourg,2010,All,Age_all,[All],3058,84.45180889,328.2544455,603.1962696
+EU,Europe,LUX,Luxembourg,2011,All,Age_all,[All],3162,84.95432563,327.4462604,610.0148935
+EU,Europe,LUX,Luxembourg,2012,All,Age_all,[All],3188,85.67589358,314.6904253,600.4207465
+EU,Europe,LUX,Luxembourg,2013,All,Age_all,[All],3123,85.07218741,300.4731293,574.7570671
+EU,Europe,LUX,Luxembourg,2014,All,Age_all,[All],3223,86.99055331,297.3982287,579.3438657
+EU,Europe,LUX,Luxembourg,2015,All,Age_all,[All],3276,85.33472258,290.121999,575.1364106
+EU,Europe,LUX,Luxembourg,2016,All,Age_all,[All],3309,85.76982893,286.041423,567.1359378
+EU,Europe,LUX,Luxembourg,2017,All,Age_all,[All],3460,86.24127617,294.8393407,580.2098146
+EU,Europe,LUX,Luxembourg,2018,All,Age_all,[All],3408,85.11488511,275.5064205,560.5728765
+EU,Europe,LUX,Luxembourg,2019,All,Age_all,[All],3368,84.03193613,266.2692977,543.2218637
