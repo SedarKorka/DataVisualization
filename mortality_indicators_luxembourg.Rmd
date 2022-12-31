@@ -8,11 +8,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 #library
 
-```{r}
+```{r echo=FALSE}
 library(readr)
 library(tidyselect)
 library(tidyverse)
@@ -30,7 +30,7 @@ library(tinytex)
 #https://ourworldindata.org/age-structure
 #Read the dataset and Tidy.
 
-```{r}
+```{r echo=FALSE}
 
 #Mortality in Luxembourg
 Mortality<-read_csv("data/Mortality_Database_Luxembourg.csv",
@@ -50,7 +50,7 @@ Mortality<-read_csv("data/Mortality_Database_Luxembourg.csv",
                      "Dumm"),
          show_col_types = TRUE)
 
-Mortality
+#Mortality
 
 #Mortality causes by noncauminicate desease in the in luxembourg from 1967
 Noncauminicate_in_luxembourg<-read_csv("data/Luxembourg/Luxembourg.csv",
@@ -69,7 +69,7 @@ Noncauminicate_in_luxembourg<-read_csv("data/Luxembourg/Luxembourg.csv",
                      "Death_rate_per_100_000_population",
                      ""),
          show_col_types = TRUE)
-Noncauminicate_in_luxembourg
+#Noncauminicate_in_luxembourg
 
 #Mortality causes by noncauminicate desease in the world
 Noncauminicate<-read_csv("data/WHOMortalityDatabase_Map_Noncommunicable_diseases_14th_December_2022_17_17.csv",
@@ -88,7 +88,7 @@ Noncauminicate<-read_csv("data/WHOMortalityDatabase_Map_Noncommunicable_diseases
                      "Death_rate_per_100_000_population",
                      ""),
          show_col_types = TRUE)
-Noncauminicate
+#Noncauminicate
 
 #Population by group age Europe
 Population<-read_csv("data/age_dependency_ratio_of_working_age_population.csv",
@@ -99,38 +99,47 @@ Population<-read_csv("data/age_dependency_ratio_of_working_age_population.csv",
                      "estimates_age",
                      ""),
          show_col_types = TRUE)
-Population
+#Population
 
 ```
 
-#We want to see how the mortality rate varies over the course of 1960 to 2021. 
-```{r}
+<p>
+We want to see how the death rate varies over the years 1960 to 2021. We specifically select deaths for all age groups. During our analysis, we will notice the difference by gender.
+</p>
+```{r echo=FALSE}
 
 
 Mortality %>% filter(Age_group_code == "Age_all", Indicator_Name=="All Causes" ) %>% 
 
-ggplot(aes(x=Year, y=Number, group=Sex))+
+ggplot(aes(x=Year, y=Death_rate_per_100000_population, group=Sex))+
   geom_line(aes(color=Sex))+
   geom_point(aes(color=Sex))+
-  xlab("Year") + ylab("Number") +
+  xlab("Year") + ylab("Death rate per 100,000 population") +
   ggtitle("Mortality rate over years in Luxembourg")+
   transition_reveal(Year)
 
 ```
 
-#We shall now analyze a few major causes of mortality in luxembourg and how these causes have affected different parts of the sex\
+<p>
+We notice that in Luxembourg, the mortality rate was very high in 1960.
+because in Luxembourg there have been several epidemics that could affect lives.
+However, from 1960 to 2020, this rate has decreased. This makes sense, because Luxembourg has adopted more modern treatment methods.
+</p>
+<p>
+We shall now analyze some major causes of mortality in luxembourg and how these causes have affected different age groups.
+</p>
 
-```{r}
+```{r echo=FALSE}
 Mortality |> count(Indicator_Name, sort = TRUE)
 
 ggplot(data = Mortality |> filter(Number>1000)) + 
-  geom_col(aes(y = Number, x = Year)) +
+  geom_col(aes(y = Number, x = Year, color=Indicator_Name)) +
   facet_wrap(~Indicator_Name)
 
 ```
 
 #Number of deaf by noncommunicatif desease by cat age
-```{r}
+```{r echo=FALSE}
 #summurase
 #(?<=\\[).*(?=\\])
 
@@ -154,7 +163,7 @@ Mortality %>% filter(Indicator_Name =="Noncommunicable diseases") %>%
 ```
 
 #Find the Year , where we have most mortality from Age 54 to 74 in luxembourg
-```{r}
+```{r echo=FALSE}
 
 world_map <- map_data("world")
 
@@ -184,8 +193,8 @@ for (y in unique(Noncauminicate_in_luxembourg$Year)) {
     geom_map(map = Luxembourg_map, aes(map_id = region, fill = Death_rate_per_100_000_population)) +
     scale_fill_gradient(low = "white", high = "#cc4c02", name = "Fraction", limits = c(0, max(Noncauminicate_in_luxembourg$Death_rate_per_100_000_population))) +
     expand_limits(x = Luxembourg_map$long, y = Luxembourg_map$lat) + 
-    labs(title = paste("Fraction of 50+ Population in ", y)))+
-    transition_manual(frames = Year)
+    labs(title = paste("Fraction of 50+ Population in ", y)))#+
+    #transition_manual(frames = Year)
     
   
   
@@ -198,7 +207,7 @@ for (y in unique(Noncauminicate_in_luxembourg$Year)) {
 
 #Comparing the mortality cause by noncomminicate desase in Luxembourg to other country from 54 to 74
 
-```{r}
+```{r echo=FALSE}
 
 
 mapdata <- map_data("world")
@@ -237,7 +246,7 @@ ggdraw() +
 
 #Life experience in 2000 comparing the rest of the word in 2000(Map) with noncommunication desases
 
-```{r}
+```{r echo=FALSE}
 Population
 
 
@@ -246,7 +255,7 @@ Population
 
 #study cas of the mortality by noncommunicate deseas(Regression linear)
 
-```{r}
+```{r echo=FALSE}
 ggplot(data = Mortality |> filter(Indicator_Name =="Noncommunicable diseases")) + 
   geom_point(aes(y =Number , x = Age_Group, fill=Sex)) #+
   #geom_bar()
