@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 #library
 
-```{r echo=FALSE}
+```{r ,fig.width=8, fig.height=8, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
 library(readr)
 library(tidyselect)
 library(tidyverse)
@@ -30,7 +30,7 @@ library(tinytex)
 #https://ourworldindata.org/age-structure
 #Read the dataset and Tidy.
 
-```{r echo=FALSE}
+```{r ,fig.width=8, fig.height=8, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
 
 #Mortality in Luxembourg
 Mortality<-read_csv("data/Mortality_Database_Luxembourg.csv",
@@ -53,7 +53,7 @@ Mortality<-read_csv("data/Mortality_Database_Luxembourg.csv",
 #Mortality
 
 #Mortality causes by noncauminicate desease in the in luxembourg from 1967
-Noncauminicate_in_luxembourg<-read_csv("data/Luxembourg/Luxembourg.csv",
+Noncauminicate_in_luxembourg<-read_csv("data/Luxembourg/WHOMortalityDatabase_Trends_years_sex_a_country_area_age-Noncommunicable diseases_1st January 2023 17_38.csv",
                          skip = 7,
                          col_names  = c( "Region_Code",
                      "Region_Name",
@@ -129,29 +129,46 @@ However, from 1960 to 2020, this rate has decreased. This makes sense, because L
 We shall now analyze some major causes of mortality in luxembourg and how these causes have affected different age groups.
 </p>
 
-```{r echo=FALSE}
+```{r, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
 Mortality |> count(Indicator_Name, sort = TRUE)
 
-ggplot(data = Mortality |> filter(Number>1000)) + 
-  geom_col(aes(y = Number, x = Year, color=Indicator_Name)) +
+ggplot(data = Mortality |> filter(Number>1000 , Indicator_Name != "All Causes")) + 
+  geom_col(aes(y = Number, x = Year, fill=Indicator_Name)) +
   facet_wrap(~Indicator_Name)
 
 ```
+<p>
+We have traced some of the leading causes of death in Luxembourg over the years. From the plot, we can see that the number of deaths is quite high for the non-communication disease.
+
+Deaths from cardiovascular diseases and malignant diseases are steadily declining. This can be attributed to improved sanitation infrastructure.
+
+Malignant diseases, on the other hand, seemed low in the years 2004, then there was a surge around 2005 until 2021. This may be due to large outbreaks of malignant diseases or may be due to the age effect of the population.
+
+Because the Luxembourg population was aging at a certain time.
+
+</p>
+<br/>
+
+<p>
+Now we know the biggest cause of death which is the non-communicate diseases. Then we should visualize. this cause to mortalize by age category. In order to see which age bracket is the most affected.
+
+</p>
+
 
 #Number of deaf by noncommunicatif desease by cat age
-```{r echo=FALSE}
+```{r, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
 #summurase
 #(?<=\\[).*(?=\\])
 
 #Mortality
 
-Mortality %>% filter(Indicator_Name =="Noncommunicable diseases") %>%
+Mortality %>% filter(Indicator_Name =="Noncommunicable diseases", Age_group_code != "Age_all") %>%
   mutate(Age_by_group_New = str_extract(Age_Group,"(\\d)+") %>% as.numeric(),
          Age_by_group_New = if_else(Age_group_code == "Age_all", 74, Age_by_group_New),
          Age_Group = fct_reorder(Age_Group, Age_group_code)) %>%
   
-  ggplot(aes(x = Age_Group, y=Number, color=Sex))+
-  geom_point(size=2, alpha=0.5)+
+  ggplot(aes(x = Age_Group, y=Death_rate_per_100000_population, fill=Sex))+
+  geom_col(size=2, alpha=0.5)+
   #geom_line(size=1)+
   theme_minimal()+
   labs(title="Yearly Culmulative mortality by NonComunication deseses in Luxembourg")+
@@ -162,50 +179,51 @@ Mortality %>% filter(Indicator_Name =="Noncommunicable diseases") %>%
 
 ```
 
-#Find the Year , where we have most mortality from Age 54 to 74 in luxembourg
-```{r echo=FALSE}
+<p>
+Here we plot the number of deaths from non-communication diseases for different age groups. From the graph, we can understand that the number of deaths due to non_communication issues is maximum for the age groups from 0 and also age groups between 54 and 74 years old. We also note that the number of deaths due to non-communication of illnesses is down slightly for the young population. The top no.
 
-world_map <- map_data("world")
+child deaths may be due to the fact that children of this age are not strong enough to resist this disease. It is noted that the number of deaths is also relatively higher among the elderly than among middle-aged adults. This may be the case with older people who do not have strong immunity against non-communication diseases.
+  </p>
 
-Luxembourg_map<-world_map %>% filter(region == "Luxembourg")
 
-Noncauminicate_in_luxembourg<-Noncauminicate_in_luxembourg %>% select("region",
-                     
-                     "Year",
-                     "Death_rate_per_100_000_population")
 
-Luxembourg_map_join<-left_join(Luxembourg_map,Noncauminicate_in_luxembourg, by="region")
+<i>
+since we find that this disease has more effect on older people. So we can visualize how this disease causes mortality during the years 1960 to 2021.
 
-#Luxembourg_map_join
+</i>
 
-for (y in unique(Noncauminicate_in_luxembourg$Year)) {
+```{r} 
+
+anim <- ggplot(data = Noncauminicate_in_luxembourg,aes(x= Age_Group , y=Death_rate_per_100_000_population)) + 
+    geom_segment( aes(x=Age_Group, xend=Age_Group, y=0, yend=Death_rate_per_100_000_population, fill=Sex, color=Sex)) +
   
-   print(Noncauminicate_in_luxembourg %>%
-    filter(Year == y) %>% 
-    select(Year,region,Death_rate_per_100_000_population) %>% 
-      
-    
-    ggplot() +
-    geom_map(
-      dat = Luxembourg_map, map = Luxembourg_map, aes(map_id = region),
-      fill = "white", color = "#7f7f7f"
-    ) +
-    geom_map(map = Luxembourg_map, aes(map_id = region, fill = Death_rate_per_100_000_population)) +
-    scale_fill_gradient(low = "white", high = "#cc4c02", name = "Fraction", limits = c(0, max(Noncauminicate_in_luxembourg$Death_rate_per_100_000_population))) +
-    expand_limits(x = Luxembourg_map$long, y = Luxembourg_map$lat) + 
-    labs(title = paste("Fraction of 50+ Population in ", y)))#+
-    #transition_manual(frames = Year)
-    
+    geom_point(size=4) + 
+  
+geom_label(aes(Age_Group, Death_rate_per_100_000_population , label = signif(Death_rate_per_100_000_population)), 
+           colour = "darkred", nudge_x = 0.35, size = 4)+
   
   
+  labs(title="Mortality due to non-communicating diseases in the elderly population advances from 1960 to 2021",
+       subtitle="En {closest_state}",
+       x="Age_Group",
+       y="Death rate per 100 000 population",
+       caption="")+
   
-}
-
+  
+  transition_states(states=Year,
+                    transition_length = 1,
+                    state_length = 2)
+anim
 
 
 ```
 
-#Comparing the mortality cause by noncomminicate desase in Luxembourg to other country from 54 to 74
+
+<p>
+Comparing the mortality cause by noncomminicate desase in Luxembourg to other country from 54 to 74
+</p>
+
+
 
 ```{r echo=FALSE}
 
@@ -248,6 +266,23 @@ ggdraw() +
 
 ```{r echo=FALSE}
 Population
+
+#gpl1 <- ggplot(data = Noncauminicate_in_luxembourg) +
+ # geom_sf(aes(fill=Death_rate_per_100_000_population, group = group),  col = "black", lwd = 0.3 )+
+  #xlab(NULL) + ylab(NULL) +
+  #ggtitle("World Export of Merchandise", subtitle = "{frame_time}")+
+  #geom_sf(data = bb, col = "grey", fill = "transparent") +
+  #theme(plot.background = element_rect(fill = "white"),
+   #     panel.background = element_rect(fill = 'white'),
+    #    panel.grid.major = element_line(colour = "grey"),
+     #   legend.position="top",
+      #  plot.title = element_text(lineheight=.8, size=24, face="bold",
+  #                                vjust=1),
+       # legend.text = element_text(vjust=.4,lineheight=1,size = 14),
+        #legend.title = element_text(vjust=1,lineheight=1, size=14,
+ #                                   face="bold" )) +
+#  transition_time(time)
+  # coord_sf(crs = "+proj=eqearth +wktext") # couldn't get this coord to work
 
 
 
