@@ -33,14 +33,12 @@ library(gifski)
 
 
 <div class="card">
-  <div class="card-header">
-    Data Set
-  </div>
-  <blockquote>
+<div class="card-header">
+Data Set
+</div>
+<blockquote>
 The professor suggested that it would be more efficient to download the datasets directly using the provided links on the website. However, the source of the datasets was set up in a way that did not allow for copying the links. As a result, I had to download the datasets directly from the website. The datasets used in this study include: 'Who compose mortality rates in Luxembourg with cause rate', 'Non communication in Luxembourg', and 'Population by age group'. The links for these datasets are as follows: <a href="https://platform.who.int/mortality/countries/country-details/MDB/luxembourg">Who compose mortality rates in Luxembourg with cause rate</a>, <a href="https://platform.who.int/mortality/themes/theme-details/MDB/noncommunicable-diseases">Non communication in Luxembourg</a>, and <a href="https://ourworldindata.org/age-structure">Population by age group</a>.
 </blockquote>
-
-
 
 
 ```{r ,fig.width=8, fig.height=8, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
@@ -115,23 +113,19 @@ Population<-read_csv("data/age_dependency_ratio_of_working_age_population.csv",
 
 ```
 
-
-  </div> 
-
+</div> 
 <br/><br/>
 
 
 
 
-<div class="card no_buttom_brder">
+<div class="card">
 <div class="card-header">
-
-        Examining Temporal Trends and Gender Disparities in Mortality Rates, 1960-2021
-    
+Examining Temporal Trends and Gender Disparities in Mortality Rates, 1960-2021.
 </div>
   
+
 <div class="card-body">
-  
 The objective of this study is to investigate the temporal dynamics of mortality rates from 1960 to 2021, encompassing individuals of all age groups. A key focus of the analysis will be to assess potential disparities in mortality rates between males and females.
         
 
@@ -148,8 +142,8 @@ ggplot(aes(x=Year, y=Death_rate_per_100000_population, group=Sex))+
   transition_reveal(Year)
 
 ```
+</div>
 
-</div>      
 <div class="card-footer">
 <blockquote>
 We notice that in Luxembourg, the mortality rate was very high in 1960.because in Luxembourg there have been several epidemics that could affect lives.However, from 1960 to 2020, this rate has decreased. This makes sense, because Luxembourg has adopted more modern treatment methods.
@@ -162,9 +156,7 @@ We notice that in Luxembourg, the mortality rate was very high in 1960.because i
 
 <div class="card">
 <div class="card-header">
-
-    We shall now analyze some major causes of mortality in luxembourg and how these causes have affected different age groups.
-    
+We shall now analyze some major causes of mortality in luxembourg and how these causes have affected different age groups.
 </div>
   
 <div class="card-body">
@@ -182,8 +174,6 @@ ggplot(data = Mortality |> filter(Number>1000 , Indicator_Name != "All Causes"))
 </div>
 
 <div class="card-footer">
-  
-
 <blockquote>
 We have identified some of the major causes of mortality in Luxembourg over the years. According to our data, the number of deaths due to non-communicable diseases is quite high.
 
@@ -197,14 +187,12 @@ It is worth noting that the population of Luxembourg has been aging over this ti
 
   </div>
 </div>
-
+<br/><br/>
 
 
 <div class="card">
 <div class="card-header">
 Given that non-communicable diseases are the leading cause of death,it's important to visualize the impact of these conditions on mortality by age group. This will allow us to identify which age brackets are most affected.
-
-    
 </div> 
 <div class="card-body">
 
@@ -222,13 +210,12 @@ Mortality %>% filter(Indicator_Name =="Noncommunicable diseases", Age_group_code
   ggplot(aes(x = Age_Group, y=Death_rate_per_100000_population, fill=Sex))+
   geom_col(size=2, alpha=0.5)+
   #geom_line(size=1)+
-  theme_minimal()+
-  labs(title="Yearly Culmulative mortality by NonComunication deseses in Luxembourg")+
-  theme(axis.text.x = element_text(angle = 90))#+
-  #transition_reveal(Year)
- 
-
-
+  theme_minimal()+ 
+  
+  xlab("Age Group") + ylab("Death rate per 100,000 population") +
+  ggtitle("Cumulative Mortality from Non-Communicable Diseases in Luxembourg by Year.")+
+  
+  theme(axis.text.x = element_text(angle = 90))
 ```
 </div>
 
@@ -241,17 +228,15 @@ child deaths may be due to the fact that children of this age are not strong eno
 </div>
 </div>
 
-
+<br/><br/>
 
 
 <div class="card">
 <div class="card-header">
 We have determined that this disease disproportionately affects older individuals. As such, it is important to visualize how this disease has contributed to mortality trends from 1960 to 2021.
 </div>
-  
 <div class="card-body">
-
-```{r}
+```{r, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
 base <- Noncauminicate_in_luxembourg %>% filter(Sex == "All") %>% 
   plot_ly(x = ~Number, y = ~Age_Group, size = ~3, 
           text = ~Age_Group, hoverinfo = "text") %>%
@@ -276,12 +261,11 @@ Our analysis has shown that the 70-year age group has consistently had the highe
 
 </div>
 
-
+<br/><br/>
 
 
 <div class="card">
 <div class="card-header">
-
 To fully understand the impact of non-communicable diseases on the 70+ population in Luxembourg, it is necessary to compare the mortality rates in this age group to those of similar populations in other countries
 </div>
   
@@ -291,15 +275,14 @@ To fully understand the impact of non-communicable diseases on the 70+ populatio
 
 mapdata <- map_data("world")
 newDataForNonCauminicate<-Noncauminicate %>% 
-                                            select(region,Year, Number, Age_Group,Age_group_code)  %>% 
+                                            select(region,Year, Number,Death_rate_per_100_000_population, Age_Group,Age_group_code)  %>% 
                                             filter(Age_group_code == "Age70_74", (Year >= 1967 & Year <= 1980)) 
  
-mapdata_join<-inner_join(mapdata,newDataForNonCauminicate, by="region")
-
+mapdata_join<-left_join(mapdata,newDataForNonCauminicate, by="region")
 mapa_animado_4<-ggplot(data=mapdata_join, aes(long, lat,  group= group,  fill= Number)) +
-  geom_polygon(color = "white",  size = 0.01) +
+  geom_polygon(color = "black",  size = 0.01) +
   theme_void() +
-  #scale_fill_gradient(low="orange2", high="darkblue", na.value = "white") +
+  scale_fill_gradient(low="orange2", high="darkblue", na.value = "white") +
   scale_fill_viridis(option = "B", name= "Years",
                      guide = guide_colorbar(
                        direction = "horizontal",
@@ -330,7 +313,7 @@ animate(mapa_animado_4,
 ```
 </div>
 
-<br/><br/>
+
 
 <div class="card-footer">
  <blockquote>
@@ -339,7 +322,7 @@ Our analysis has shown that the 70-year age group has consistently had the highe
 </div>
 
 </div>
-
+<br/><br/>
 
 
 <div class="card">
@@ -403,8 +386,12 @@ animate(p, fps = 25, duration = 20, width = 800, height = 600)
 </div>
 <div class="card-footer">
  <blockquote>
-Our analysis has shown that the 70-year age group has consistently had the highest number of mortality cases from 1967 to 1980.
+ 
+ Based on this visualization, it is likely that you will observe that the median age of the population in some countries was higher than in Luxembourg during the 1967-1980 time period. This suggests that mortality due to non-communicable diseases was not solely caused by the aging of the population in these countries, but may also have been influenced by other factors such as genetics, lifestyle, and environmental exposures. From this information, it is possible to conclude that mortality due to non-communicable diseases was not only caused by the aging of the population in these countries during this time period.
+ 
+ 
  </blockquote>
 </div>
 
 </div>
+<br/><br/>

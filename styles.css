@@ -1,10 +1,10 @@
  /*------------- Whole Document---------------- */
 
-/* body {
+ body {
     font-family: 'Muli';
     font-size: 19px;
-    background-color: gray;
-}*/
+    background-color: #eff3f5;
+}/**/
 /*----------------Header-------------*/
 
 #header {
@@ -74,7 +74,6 @@ button:hover{
   .card {
     /*background-color: #f5f5f5;*/
     border: 1px solid #ccc;
-    
     border-radius: 4px;
   }
   .card .no_buttom_brder{
@@ -98,19 +97,21 @@ button:hover{
   }
 
 /*pre*/
-pre {
+.card pre {
     display: block;
     padding: 9.5px;
     margin: 0 0 10px;
     font-size: 13px;
     line-height: 1.42857143;
-    color: #333;
+    color: #FFF;
     word-break: break-all;
     word-wrap: break-word;
     background-color:  #51ADDA;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+
   
   
 
