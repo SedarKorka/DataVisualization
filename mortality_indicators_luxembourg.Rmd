@@ -283,8 +283,9 @@ Comparing the mortality cause by noncomminicate desase in Luxembourg to other co
 ```{r ,fig.width=8, fig.height=8, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
 
 mapdata <- map_data("world")
-newDataForNonCauminicate<-Noncauminicate %>% select(region,Year, Number, Age_Group) 
-#newDataForNonCauminicate 
+newDataForNonCauminicate<-Noncauminicate %>% 
+                                            select(region,Year, Number, Age_Group)  
+ 
 mapdata_join<-inner_join(mapdata,newDataForNonCauminicate, by="region")
 
 #mapdata_join
