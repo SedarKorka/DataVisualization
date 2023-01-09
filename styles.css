@@ -86,13 +86,14 @@ button:hover{
     background-color: #51ADDA;
     color: #fff;
     padding: 10px;
+    text-align: center;
   }
   .card-body {
     padding: 10px;
   }
   .card-footer {
     font-size: 12px;
-    background-color: #51ADDA;
+    background-color: #eff3f5;
     padding: 10px;
   }
 

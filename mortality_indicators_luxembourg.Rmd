@@ -118,7 +118,7 @@ Population<-read_csv("data/age_dependency_ratio_of_working_age_population.csv",
 
   </div> 
 
-
+<br/><br/>
 
 
 
@@ -151,12 +151,14 @@ ggplot(aes(x=Year, y=Death_rate_per_100000_population, group=Sex))+
 
 </div>      
 <div class="card-footer">
+<blockquote>
 We notice that in Luxembourg, the mortality rate was very high in 1960.because in Luxembourg there have been several epidemics that could affect lives.However, from 1960 to 2020, this rate has decreased. This makes sense, because Luxembourg has adopted more modern treatment methods.
+ </blockquote>
 </div>
 
 </div>
 
-
+<br/><br/>
 
 <div class="card">
 <div class="card-header">
@@ -182,7 +184,7 @@ ggplot(data = Mortality |> filter(Number>1000 , Indicator_Name != "All Causes"))
 <div class="card-footer">
   
 
-<p>
+<blockquote>
 We have identified some of the major causes of mortality in Luxembourg over the years. According to our data, the number of deaths due to non-communicable diseases is quite high.
 
 Deaths from cardiovascular diseases and cancer have been steadily decreasing, which may be due to improvements in sanitation infrastructure.
@@ -191,17 +193,16 @@ Cancer deaths appeared to be low in the years 2004, but then saw an increase aro
 
 It is worth noting that the population of Luxembourg has been aging over this time period.
 
-</p>
+</blockquote>
 
   </div>
 </div>
 
 
 
-<div class="card no_buttom_brder">
+<div class="card">
 <div class="card-header">
-
-Given that non-communicable diseases are the leading cause of death, it is important to visualize the impact of these conditions on mortality by age group. This will allow us to identify which age brackets are most affected.
+Given that non-communicable diseases are the leading cause of death,it's important to visualize the impact of these conditions on mortality by age group. This will allow us to identify which age brackets are most affected.
 
     
 </div> 
@@ -232,9 +233,11 @@ Mortality %>% filter(Indicator_Name =="Noncommunicable diseases", Age_group_code
 </div>
 
 <div class="card-footer">
+ <blockquote>
 Here we plot the number of deaths from non-communication diseases for different age groups. From the graph, we can understand that the number of deaths due to non_communication issues is maximum for the age groups from 0 and also age groups between 54 and 74 years old. We also note that the number of deaths due to non-communication of illnesses is down slightly for the young population. The top no.
 
 child deaths may be due to the fact that children of this age are not strong enough to resist this disease. It is noted that the number of deaths is also relatively higher among the elderly than among middle-aged adults. This may be the case with older people who do not have strong immunity against non-communication diseases.
+ </blockquote>
 </div>
 </div>
 
@@ -243,8 +246,7 @@ child deaths may be due to the fact that children of this age are not strong eno
 
 <div class="card">
 <div class="card-header">
-
-   We have determined that this disease disproportionately affects older individuals. As such, it is important to visualize how this disease has contributed to mortality trends from 1960 to 2021.
+We have determined that this disease disproportionately affects older individuals. As such, it is important to visualize how this disease has contributed to mortality trends from 1960 to 2021.
 </div>
   
 <div class="card-body">
@@ -267,28 +269,32 @@ base %>%
 ```
 </div>
 <div class="card-footer">
-Our analysis has shown that the 70-year age group has consistently had the highest number of mortality cases from 1967 to 1980
+ <blockquote>
+Our analysis has shown that the 70-year age group has consistently had the highest number of mortality cases from 1967 to 1980.
+ </blockquote>
 </div>
 
 </div>
 
 
 
-<p>
-Comparing the mortality cause by noncomminicate desase in Luxembourg to other country from 54 to 74
-</p>
 
-#animate map
+<div class="card">
+<div class="card-header">
+
+To fully understand the impact of non-communicable diseases on the 70+ population in Luxembourg, it is necessary to compare the mortality rates in this age group to those of similar populations in other countries
+</div>
+  
+<div class="card-body">
 
 ```{r ,fig.width=8, fig.height=8, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
 
 mapdata <- map_data("world")
 newDataForNonCauminicate<-Noncauminicate %>% 
-                                            select(region,Year, Number, Age_Group)  
+                                            select(region,Year, Number, Age_Group,Age_group_code)  %>% 
+                                            filter(Age_group_code == "Age70_74", (Year >= 1967 & Year <= 1980)) 
  
 mapdata_join<-inner_join(mapdata,newDataForNonCauminicate, by="region")
-
-#mapdata_join
 
 mapa_animado_4<-ggplot(data=mapdata_join, aes(long, lat,  group= group,  fill= Number)) +
   geom_polygon(color = "white",  size = 0.01) +
@@ -304,9 +310,9 @@ mapa_animado_4<-ggplot(data=mapdata_join, aes(long, lat,  group= group,  fill= N
                        title.hjust = 0.5,
                        title.vjust = 0.5,
                        na.value = "white"))  +
-  labs(title="Life Expectancy",
+  labs(title="Comparing Mortality Rates of 70+ Population in Luxembourg to Those of Other Countries to Understand the Impact of Non-Communicable Diseases.",
        subtitle = "{current_frame}",
-       caption = "Source: gapminder.org")  +
+       caption = "")  +
   theme(
     plot.title = element_text(size = 12, hjust = 0.5),
     plot.subtitle = element_text(size = 10, hjust = 0.5),
@@ -322,22 +328,35 @@ animate(mapa_animado_4,
         width = 700)
 
 ```
+</div>
 
-#Life experience in 2000 comparing the rest of the word in 2000(Map) with noncommunication desases
+<br/><br/>
+
+<div class="card-footer">
+ <blockquote>
+Our analysis has shown that the 70-year age group has consistently had the highest number of mortality cases from 1967 to 1980 in Europe.
+ </blockquote>
+</div>
+
+</div>
 
 
 
+<div class="card">
+<div class="card-header">
+Checking the age categories of the population in Europe from 1967 to 1980 could be important for understanding the prevalence of non-communicable diseases (NCDs) in this population during that time period.
 
-<p>
-representation of the population of the countries most affected by non-communicable diseases by age from 1960 to 1970
+This is because NCDs, such as heart disease, stroke, and cancer, are often more common in older age groups. By examining the age distribution of the population, We can determine whether the observed prevalence of NCDs in the population is due to the higher proportion of older individuals in the population, or whether other factors are also contributing to the observed prevalence of NCDs.
 
-</p>
-
+</div>
+  
+<div class="card-body">
 
 ```{r ,fig.width=8, fig.height=8, comment = NA, echo=FALSE, message = FALSE, warning = FALSE}
+# Define a vector of European countries
+european_countries <- c("Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kazakhstan", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City")
 
-
-gap <- Population %>% 
+gap <- Population %>% filter((Year >= 1967 & Year <= 1980), region %in% european_countries) %>% 
   group_by(Year) %>%
   # The * 1 makes it possible to have non-integer ranks while sliding
   mutate(rank = min_rank(-estimates_age) * 1) %>%
@@ -366,7 +385,7 @@ p <- ggplot(gap, aes(rank, group = region,
 
   
 
-  labs(title='{closest_state}', x = "", y = "GFP per capita") +
+  labs(title='{closest_state}', x = "", y = "Age") +
   
   theme(plot.title = element_text(hjust = 0, size = 22),
         axis.ticks.y = element_blank(),  # These relate to the axes post-flip
@@ -381,3 +400,11 @@ p <- ggplot(gap, aes(rank, group = region,
 animate(p, fps = 25, duration = 20, width = 800, height = 600)
 
 ```
+</div>
+<div class="card-footer">
+ <blockquote>
+Our analysis has shown that the 70-year age group has consistently had the highest number of mortality cases from 1967 to 1980.
+ </blockquote>
+</div>
+
+</div>
