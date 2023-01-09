@@ -6,5 +6,5 @@ The professor suggested that it would be more efficient to download the datasets
 
 
 <strong>
-"The presentation for this project is located in the file 'mortality_in_luxembourg.html'. This file can be accessed by clicking on the link or by downloading and opening the file in a web browser."
+"The presentation for this project is located in the file 'mortality_indicators_luxembourg.html'. This file can be accessed by clicking on the link or by downloading and opening the file in a web browser."
 </strong>
