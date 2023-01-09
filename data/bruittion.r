@@ -48,3 +48,25 @@ for (y in unique(Noncauminicate_in_luxembourg$Year)) {
   
   
 }
+
+
+anim <- ggplot(data = Noncauminicate_in_luxembourg,aes(x= Age_Group , y=Death_rate_per_100_000_population)) + 
+    geom_segment( aes(x=Age_Group, xend=Age_Group, y=0, yend=Death_rate_per_100_000_population, fill=Sex, color=Sex)) +
+  
+    geom_point(size=4) + 
+  
+geom_label(aes(Age_Group, Death_rate_per_100_000_population , label = signif(Death_rate_per_100_000_population)), 
+           colour = "darkred", nudge_x = 0.35, size = 4)+
+  
+  
+  labs(title="Mortality due to non-communicating diseases in the elderly population advances from 1960 to 2021",
+       subtitle="En {closest_state}",
+       x="Age_Group",
+       y="Death rate per 100 000 population",
+       caption="")+
+  
+  
+  transition_states(states=Year,
+                    transition_length = 1,
+                    state_length = 2)
+anim
